@@ -196,8 +196,7 @@ def main():
     elif puzzleType == 6:
         print("\nEnter the puzzle in single space separated manner, use 0 to denote space/blank")
         for i in range(3):
-            initialPuzzleState.extend(
-                map(lambda x: int(x), input("Enter inputs for row " + str(i + 1) + ": ").split(" ")))
+            initialPuzzleState.append(list(map(lambda x: int(x), input("Enter inputs for row " + str(i + 1) + ": ").split(" "))))
     else:
         print("Invalid Input !!!")
         return ""
