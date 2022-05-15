@@ -116,8 +116,7 @@ class Problem:
         for xnC, ynC in directionList:
             if 0 <= xoC + xnC < 3 and 0 <= yoC + ynC < 3:
                 tempNode = deepcopy(currState)
-                tempNode[xoC + xnC][yoC + ynC], tempNode[xoC][yoC] = currState[xoC][yoC], currState[xoC + xnC][
-                    yoC + ynC]
+                tempNode[xoC + xnC][yoC + ynC], tempNode[xoC][yoC] = currState[xoC][yoC], currState[xoC + xnC][yoC + ynC]
                 hashValTemp = hash(str(tempNode))
                 if hashValTemp not in self.attemptList:
                     self.attemptList.add(hashValTemp)
