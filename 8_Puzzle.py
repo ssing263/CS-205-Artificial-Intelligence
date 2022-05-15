@@ -17,8 +17,7 @@ def main():
 
     initialPuzzleState = []
 
-    puzzleType = int(input(
-        "Select the choice for the type of puzzle \n1. Trivial \n2. Very Easy \n3. Easy \n4. Doable \n5. Oh Boy \n6. Custom Input \n\nEnter your choice: "))
+    puzzleType = int(input("Select the choice for the type of puzzle \n1. Trivial \n2. Very Easy \n3. Easy \n4. Doable \n5. Oh Boy \n6. Custom Input \n\nEnter your choice: "))
 
     if puzzleType == 1:
         initialPuzzleState = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
@@ -148,12 +147,9 @@ def solved(currNode):
     return True if currNode == finalState else False
 
 # Manhanttan and Misplaced Tile Heuristics
-getManhattanDistance = lambda currNode: sum(
-    [abs(i - mhnDict.get(currNode[i][j])[0]) + abs(j - mhnDict.get(currNode[i][j])[1]) if currNode[i][j] != 0 else 0
-     for i in range(3) for j in range(3)])
+mhnDis = lambda currNode: sum([abs(i - mhnDict.get(currNode[i][j])[0]) + abs(j - mhnDict.get(currNode[i][j])[1]) if currNode[i][j] != 0 else 0 for i in range(3) for j in range(3)])
 
-mptDis = lambda currNode: sum(
-    [1 if mhnDict.get(currNode[i][j]) != (i, j) and currNode[i][j] != 0 else 0 for i in range(3) for j in range(3)])
+mptDis = lambda currNode: sum([1 if mhnDict.get(currNode[i][j]) != (i, j) and currNode[i][j] != 0 else 0 for i in range(3) for j in range(3)])
 
 
 def traceback(node: Node):
@@ -170,7 +166,6 @@ def generalSearch(problem, queueingFunction):
     # General search function  keeps on updating the queue by and pops the node from queue as per heuristics until
     # the final state is found
     # Exits if the priority queue becomes empty before reaching a solution
-    
     initialNode = Node(problem.initialState, 0, 0, 0, None)
     activeQueue = queue.PriorityQueue()
     activeQueue.put(initialNode)
@@ -192,8 +187,7 @@ def generalSearch(problem, queueingFunction):
         if solved(currentNodeState):
             print("Goal state found")
             printPuzzle(currentNodeState)
-            print("Solution depth is: ", currentNode.getGn(), "\nNumber of nodes expanded: ", problem.getVisitedCount(),
-                  "\nMax queue size: ", maxQueueSize)
+            print("Solution depth is: ", currentNode.getGn(), "\nNumber of nodes expanded: ", problem.getVisitedCount(),"\nMax queue size: ", maxQueueSize)
             end = time.time()
             print("Time to finish: ", end - start, " seconds\n", sep=" ")
             print("Traceback from goal to Initial Puzzle state\n")
@@ -201,11 +195,10 @@ def generalSearch(problem, queueingFunction):
                 printPuzzle(node)
             break
         else:
-            print("The best state to expand with a g(n) = ", currentNode.getGn(), " and h(n) = ", currentNode.getHn(),
-                  " is...")
+            print("The best state to expand with a g(n) = ", currentNode.getGn(), " and h(n) = ", currentNode.getHn(), " is...")
             printPuzzle(currentNodeState)
 
-        # Populating new nodes depending on the queueing Function
+        # Populating new nodes depending on the queueing Function into the priority Queue
         newNodes = problem.expandNode(currentNode)
         if queueingFunction == 1:
             for node in newNodes:
@@ -219,7 +212,7 @@ def generalSearch(problem, queueingFunction):
                 activeQueue.put(node)
         elif queueingFunction == 3:
             for node in newNodes:
-                node.setHn(getManhattanDistance(node.getState()))
+                node.setHn(mhnDis(node.getState()))
                 node.setFn(node.getGn() + node.getHn())
                 activeQueue.put(node)
 
