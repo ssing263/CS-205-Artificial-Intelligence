@@ -104,10 +104,25 @@ def solved(currNode):
     global finalState
     return True if currNode == finalState else False
 
-# Manhanttan and Misplaced Tile Heuristics
-mhnDis = lambda currNode: sum([abs(i - mhnDict.get(currNode[i][j])[0]) + abs(j - mhnDict.get(currNode[i][j])[1]) if currNode[i][j] != 0 else 0 for i in range(3) for j in range(3)])
 
-mptDis = lambda currNode: sum([1 if mhnDict.get(currNode[i][j]) != (i, j) and currNode[i][j] != 0 else 0 for i in range(3) for j in range(3)])
+def mhnDis(currNode):
+    # Manhattan Heuristics Distance Calculation
+    sumDis = 0
+    for i in range(3):
+        for j in range(3):
+            if currNode[i][j] != 0:
+                sumDis = sumDis + abs(i - mhnDict.get(currNode[i][j])[0]) + abs(j - mhnDict.get(currNode[i][j])[1])
+    return sumDis
+
+
+def mptDis(currNode):
+    # Misplaced Tile Heuristics Distance Calculation
+    sumDis = 0
+    for i in range(3):
+        for j in range(3):
+            if mhnDict.get(currNode[i][j]) != (i, j) and currNode[i][j] != 0:
+                sumDis = sumDis + 1
+    return sumDis
 
 
 def traceback(node: Node):
@@ -145,7 +160,7 @@ def generalSearch(problem, queueingFunction):
         if solved(currentNodeState):
             print("Goal state found")
             printPuzzle(currentNodeState)
-            print("Solution depth is: ", currentNode.getGn(), "\nNumber of nodes expanded: ", problem.getVisitedCount(),"\nMax queue size: ", maxQueueSize)
+            print("Solution depth is: ", currentNode.getGn(), "\nNumber of nodes expanded: ", problem.getVisitedCount(), "\nMax queue size: ", maxQueueSize)
             end = time.time()
             print("Time to finish: ", end - start, " seconds\n", sep=" ")
             print("Traceback from goal to Initial Puzzle state\n")
@@ -196,7 +211,8 @@ def main():
     elif puzzleType == 6:
         print("\nEnter the puzzle in single space separated manner, use 0 to denote space/blank")
         for i in range(3):
-            initialPuzzleState.append(list(map(lambda x: int(x), input("Enter inputs for row " + str(i + 1) + ": ").split(" "))))
+            initialPuzzleState.append(
+                list(map(lambda x: int(x), input("Enter inputs for row " + str(i + 1) + ": ").split(" "))))
     else:
         print("Invalid Input !!!")
         return ""
