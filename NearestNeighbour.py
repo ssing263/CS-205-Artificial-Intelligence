@@ -48,7 +48,7 @@ def backwardSelection(numOfFeatures):
     bestFeatureGroup = [currentFeatureSet, getAccuracy(currentFeatureSet)]
     print("Using features(s) %s accuracy is %.2f %%" % (str(bestFeatureGroup[0]).replace("[", "{").replace("]", "}"), bestFeatureGroup[1]), end="\n")
     print("\nFeature set %s was best, accuracy is %.2f %%" % (str(bestFeatureGroup[0]).replace("[", "{").replace("]", "}"), bestFeatureGroup[1]), end="\n\n")
-    for i in range(numOfFeatures):
+    for i in range(numOfFeatures - 1):
         reducingBestFeatureGroup = [None, float("-inf"), -1]
         for f in currentFeatureSet:
             runningSet = deepcopy(currentFeatureSet)
