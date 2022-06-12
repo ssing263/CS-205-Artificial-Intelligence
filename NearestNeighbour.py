@@ -1,22 +1,16 @@
-import numpy as np
+import numpy as np, time
 from copy import deepcopy
-import time
 
-label, features = None, None
-rows, columns = None, None
-
+label, features, rows, columns = None, None, None, None
 
 def getAccuracy(selectFeaturesIndices):
-    selectFeaturesIndices = list(map(lambda x: x - 1, selectFeaturesIndices))
-    selectFeatures = features[:, selectFeaturesIndices]
+    selectFeatures = features[:, list(map(lambda x: x - 1, selectFeaturesIndices))]
     correctCount = 0
     for i in range(rows):
-        testLabel, testfeatures = label[i], selectFeatures[i, :]
         trainLabel, trainfeatures = np.delete(label, i, 0), np.delete(selectFeatures, i, 0)
-        if testLabel == trainLabel[np.argmin(np.sqrt(np.sum(np.square(trainfeatures - testfeatures), axis=1)))].item():
+        if label[i] == trainLabel[np.argmin(np.sqrt(np.sum(np.square(trainfeatures - selectFeatures[i, :]), axis=1)))].item():
             correctCount += 1
     return 100 * correctCount / rows
-
 
 def forwardSelection(numOfFeatures):
     bestFeatureGroup = [None, float("-inf")]
@@ -40,7 +34,6 @@ def forwardSelection(numOfFeatures):
         else:
             print("(Warning, Accuracy has decreased! Continuing search in case of local maxima)")
     print("\nFinished search!! The best feature subset is %s, which has an accuracy of %.2f %%" %(str(bestFeatureGroup[0]).replace("[", "{").replace("]","}"),bestFeatureGroup[1]))
-
 
 def backwardSelection(numOfFeatures):
     print("Beginning Search.", end="\n\n")
@@ -67,7 +60,6 @@ def backwardSelection(numOfFeatures):
     print("\nFinished search!! The best feature subset is %s, which has an accuracy of %.2f %%" % (
         str(bestFeatureGroup[0]).replace("[", "{").replace("]", "}"), bestFeatureGroup[1]))
 
-
 def start():
     global label, features, rows, columns
     dataset = np.genfromtxt(input("\nWelcome to Sourav Singha Feature Search Algorithm\n\nEnter name of the dataset you want to process: "))
@@ -82,9 +74,7 @@ def start():
     else:
         print("Wrong choice !!!")
         return
-    endTime = time.time()
-    print("\nExecution Time: %.2f seconds" % float(endTime - startTime))
-
+    print("\nExecution Time: %.2f seconds" % float(time.time() - startTime))
 
 if __name__ == "__main__":
     start()
