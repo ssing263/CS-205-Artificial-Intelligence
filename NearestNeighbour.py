@@ -39,7 +39,7 @@ def forwardSelection(numOfFeatures):
             bestFeatureGroup = [expandingBestFeatureGroup[0], expandingBestFeatureGroup[1]]
         else:
             print("(Warning, Accuracy has decreased! Continuing search in case of local maxima)")
-    print("Finished search!! The best feature subset is %s, which has an accuracy of %.2f %%" %(str(bestFeatureGroup[0]).replace("[", "{").replace("]","}"),bestFeatureGroup[1]))
+    print("\nFinished search!! The best feature subset is %s, which has an accuracy of %.2f %%" %(str(bestFeatureGroup[0]).replace("[", "{").replace("]","}"),bestFeatureGroup[1]))
 
 
 def backwardSelection(numOfFeatures):
@@ -64,7 +64,7 @@ def backwardSelection(numOfFeatures):
             bestFeatureGroup = [reducingBestFeatureGroup[0], reducingBestFeatureGroup[1]]
         else:
             print("(Warning, Accuracy has decreased! Continuing search in case of local maxima)")
-    print("Finished search!! The best feature subset is %s, which has an accuracy of %.2f %%" % (
+    print("\nFinished search!! The best feature subset is %s, which has an accuracy of %.2f %%" % (
         str(bestFeatureGroup[0]).replace("[", "{").replace("]", "}"), bestFeatureGroup[1]))
 
 
